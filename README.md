@@ -1,129 +1,53 @@
-Here is the ultimate, comprehensive `README.md` file for your entire project repository. It consolidates the **complete end-to-end pipeline architecture**, the **full tech stack**, and the detailed breakdown of **all three of your core machine learning and deep learning projects** using a matching production-grade format.
-
-```markdown
 # A Tri-Ensemble Stacking Framework for E-Commerce Purchase Prediction with Explainable AI
 
-Developed a two-layer **Stacking Ensemble** (RF, ET, XGBoost) to predict online buyer intent with **90.23% accuracy** over 12,330 records. Handled severe class imbalances via **SMOTE** and deployed **SHAP** to map black-box metrics into transparent business insights.
+Developed a two-layer **Stacking Ensemble** framework combining Random Forest, Extra Trees, and XGBoost to predict online buyer intent with **90.23% accuracy** over 12,330 session records. Handled severe class imbalances via **SMOTE** and deployed **SHAP** to map complex black-box metrics into transparent, actionable business insights.
 
 ---
 
-## 🛠️ Tech Stack & Used Technologies
+## 📌 Project Overview
+Online e-commerce consumer behavior data is inherently skewed, with only a small fraction of sessions resulting in a purchase (~15.5%). Standard machine learning models often struggle with this class imbalance, yielding high accuracy by simply predicting the majority class while completely missing actual buyers. Furthermore, high-performing ensemble models typically act as "black boxes," making it difficult for businesses to trust or utilize their predictions.
 
+This project introduces a robust, end-to-end machine learning pipeline that addresses both challenges. By leveraging an optimized tri-ensemble stacking classifier alongside Explainable AI (XAI) frameworks, it accurately predicts purchasing intent and surfaces the underlying behavioral catalysts that drive conversions.
+
+---
+
+## 🛠️ Tech Stack & Core Techniques
 * **Programming Language:** Python
-* **Data Processing & Analytics:** pandas, NumPy, OpenCV
-* **Machine Learning & Deep Learning Frameworks:** scikit-learn, XGBoost, TensorFlow, Keras
-* **Class Imbalance & Data Imputation:** SMOTE, KNN Imputer, IQR Outlier Filtration
-* **Hyperparameter Optimization:** GridSearchCV with 3-Fold Stratified Cross-Validation
-* **Explainable AI (XAI):** SHAP (KernelExplainer), LIME
-* **Web Deployment & UI:** FastAPI, Flask, SQLite3, HTML5, CSS3
+* **Data Manipulation:** pandas, NumPy
+* **Machine Learning Framework:** scikit-learn, XGBoost
+* **Class Imbalance Resolution:** SMOTE (Synthetic Minority Over-sampling Technique)
+* **Hyperparameter Tuning:** GridSearchCV with 3-Fold Stratified Cross-Validation
+* **Explainable AI (XAI):** SHAP (SHapley Additive exPlanations) KernelExplainer
 
 ---
 
-## 🔄 Core Pipeline Architecture & Flow
+## 📊 Pipeline Workflow
 
+### 1. Data Integrity & Preprocessing
+* Processed **12,330 session records** from online shopper behavioral data.
+* Implemented strict stratified splitting to ensure consistent training and testing target distributions.
+* **SMOTE Oversampling** was applied **strictly within the training folds** during cross-validation to eliminate data contamination, leakage, or evaluation biases.
 
-```
+### 2. Two-Layer Stacking Ensemble Architecture
+* **Base Learners (Layer 0):** Random Forest (RF), Extra Trees (ET), and XGBoost.
+* **Meta-Classifier (Layer 1):** Logistic Regression.
+* **Optimization:** Executed a systematic hyperparameter sweep via `GridSearchCV` across all tree-based base learners to minimize variance.
 
-[ Raw E-Commerce Session Data (12,330 records) ]
-│
-▼
-[ Stratified 80/20 Split ] ───► [ Testing Set (20%) ]
-│                             │
-▼ (Train Folds Only)          │ (Untouched)
-[ SMOTE Oversampling ]                  │
-│                             │
-▼                             │
-[ Layer 0: Base Learners ]               │
-├── Random Forest                        │
-├── Extra Trees                          │
-└── XGBoost                              │
-│                             │
-▼                             │
-[ Layer 1: Meta-Classifier ]               │
-└── Logistic Regression                  │
-│                             │
-▼                             ▼
-[ Final Stacked Model ] ◄─────────────┘
-│
-├──► [ Evaluation: 90.23% Accuracy ]
-│
-▼
-[ SHAP KernelExplainer ] ───► [ Business Insights ]
-
-```
-
-### 1. Data Ingestion & Preprocessing
-* **Dataset Scale:** Processes 12,330 e-commerce session records characterized by a severe class imbalance (~15.5% purchase conversion rate).
-* **Data Splitting:** Data is partitioned using a stratified 80/20 train-test split to guarantee identical target distributions across training and testing environments.
-
-### 2. Isolated Class Imbalance Correction
-* **SMOTE Application:** To completely eliminate data contamination, leakage, or artificial performance inflation, **SMOTE Oversampling** is applied **strictly within the training folds** during cross-validation. The validation and testing sets remain entirely original and untouched.
-
-### 3. Systematic Model Optimization
-* **Hyperparameter Tuning:** `GridSearchCV` combined with 3-Fold Stratified Cross-Validation is executed over the base classifiers to pin down the absolute best operational parameters and bound the generalization gap.
-
-### 4. Two-Layer Stacking Architecture Execution
-* **Layer 0 (Base Learners):** The training matrix passes simultaneously through an optimized array of distinct tree-based ensemble models: **Random Forest**, **Extra Trees**, and **XGBoost**.
-* **Layer 1 (Meta-Classifier):** The prediction probabilities generated by the base learners are captured and fed into a final **Logistic Regression** meta-learner, synthesizing their collective outputs into a single robust prediction.
-
-### 5. Post-Inference Performance Evaluation
-* The combined pipeline computes test metrics, hitting a **90.23% Classification Accuracy** and a **0.9205 ROC-AUC Score**, while keeping the real-world generalization gap restricted to a tight `3.24%`.
-
-### 6. XAI Insight Generation (SHAP Execution)
-* The fully trained stacked architecture is wrapped into the **SHAP KernelExplainer**. 
-* This decodes the model's global logic and maps local, session-level predictions directly into readable indicators—proving that checkout features like `PageValues` act as major purchase catalysts, while micro-level friction like `ExitRates` actively pulls down conversion probability.
+### 3. Model Explainability (XAI)
+* Deployed the **SHAP KernelExplainer** to decode global feature importance as well as local session-level predictions.
+* Successfully mapped abstract computational boundaries into transparent indicators, evaluating metrics like `PageValues` and `ExitRates` to expose concrete consumer buying behavior.
 
 ---
 
-## 💻 Technical Projects Portfolio
+## 📈 Performance Results
+The proposed framework achieved state-of-the-art results, successfully outperforming standalone baseline models and previous literature benchmarks:
 
-### 1. E-Commerce Purchase Prediction — Tri-Ensemble Stacking Framework
-* **Stack:** Python · scikit-learn · XGBoost · Random Forest · Extra Trees · Logistic Regression · SMOTE · SHAP · GridSearchCV · pandas
-* **Timeline:** Dec 2025 – Apr 2026
-* **Key Achievements:**
-  * Developed and published a high-performance, two-layer **Stacking Ensemble Learning** framework over 12,330 session records, achieving an optimized **90.23% accuracy** and **0.9205 ROC-AUC** to outperform baseline industry benchmarks.
-  * Engineered an end-to-end machine learning pipeline utilizing **SMOTE Oversampling strictly within training folds** to correct for a severe 84.5:15.5 class imbalance without risking data contamination or evaluation bias.
-  * Executed systematic hyperparameter optimization via **GridSearchCV with 3-Fold Stratified Cross-Validation** across all tree-based learners, minimizing the generalization gap to a modest 3.24%.
-  * Integrated **Explainable AI (XAI) via SHAP KernelExplainer** to extract global and session-level feature attributions, mapping black-box model predictions into transparent, actionable business insights on customer engagement behaviors like `PageValues` and `ExitRates`.
-
-### 2. Diabetes Prediction — Stacked Ensemble & Explainable AI (LIME) Pipeline
-* **Stack:** Python · scikit-learn · LIME · KNN Imputer · GridSearchCV · Random Forest · Extra Trees · Logistic Regression · pandas
-* **Timeline:** 2024 – 2025
-* **Key Achievements:**
-  * Developed an end-to-end clinical classification pipeline using a two-layer **Stacking Ensemble Learning** framework to automate diabetes risk assessment, yielding an optimized validation accuracy of **78%**.
-  * Designed a rigorous data integrity workflow featuring **KNN Imputation** for missing physiological attributes and **IQR-Based Outlier Filtration** to eliminate anomalous data points and prevent downstream training biases.
-  * Implemented a stratified 80/20 train-test split coupled with a multi-model hyperparameter sweep via **GridSearchCV** to optimize configuration settings for Random Forest and Extra Trees base learners.
-  * Integrated **Explainable AI (XAI) via LIME** to interpret individual instance-level classification boundaries, generating clear, local feature attribution weights for critical indicators like glucose and BMI to drive transparent clinical decision-making.
-  * Constructed a unified analytical workflow using *pandas*, *NumPy*, and *scikit-learn* to orchestrate the pipeline from raw ingestion and **Exploratory Data Analysis (EDA)** correlation mapping directly to final meta-learner generation.
-
-### 3. FireGuard — Real-Time Wildfire Detection & Spatial-Temporal CRNN Pipeline
-* **Stack:** Python · TensorFlow · Keras · OpenCV · Flask · CRNN (CNN + LSTM) · Data Augmentation · HTML5/CSS3
-* **Timeline:** 2024 – 2025
-* **Key Achievements:**
-  * Shipped *FireGuard*, an automated deep learning application that processes high-definition drone footage to detect forest fires, smoke, fog, and burned landscapes with a validation accuracy of **97.93%**.
-  * Engineered a custom **Convolutional Recurrent Neural Network (CRNN)** architecture in *Python*, binding **Conv2D spatial feature filters** directly to two **LSTM sequential layers** to map evolving temporal fire intensities over frame sequences.
-  * Modeled a robust **Data Preprocessing** and **Data Augmentation** pipeline, scaling pixel distributions using **Image Normalization** to a `[0, 1]` range and executing randomized operations (shears, flips, zooms, and 40° rotations) across 49,430 image frames to eradicate baseline training biases.
-  * Developed a responsive web dashboard using **Flask**, **HTML5**, **CSS3**, and **OpenCV** to stream spatial video feeds, embed asynchronous inference models, and sound automated real-time audio alerts upon smoke detection.
-  * Integrated **Dropout Regularization** layers into the recurrent training stack, shrinking data tracking variances to outperform classic standalone CNN benchmarks by **+2.49%** across every execution epoch.
-
-### 4. USA Immigration Lawyer Platform — Document Automation Pipeline
-* **Stack:** Python · PyMuPDF · SQLite3 · FastAPI · Structured Data Extraction · Schema Validation
-* **Timeline:** 2025
-* **Key Achievements:**
-  * Engineered a secure backend workflow using **Python** and **FastAPI** to automate immigration filings, deploying high-throughput REST APIs that dynamically build complex legal applications (e.g., I-90, I-537 forms) from user-uploaded documents.
-  * Developed low-level parsing scripts utilizing **PyMuPDF** to programmatically map, extract, and auto-populate structured user data directly into strict government PDF templates, eliminating manual paperwork overhead.
-  * Designed and maintained an optimized relational schema using **SQLite3** to manage user session states, application tracking metadata, and document processing lifecycles efficiently.
-  * Implemented automated schema validation and data transformation logic in **Python** to verify extracted inputs early in the lifecycle, preventing field mismatch anomalies before final database storage and generation.
+* **Classification Accuracy:** `90.23%`
+* **ROC-AUC Score:** `0.9205`
+* **Generalization Gap:** Restricted to a modest `3.24%`, indicating exceptionally stable real-world deployment metrics.
 
 ---
 
-## 📈 Summary Metrics Reference Table
-
-| Metric Framework | Project Target | Validation Achieved | Operational Status |
-| :--- | :---: | :---: | :---: |
-| **E-Commerce Stacking Accuracy** | 12,330 Records | **90.23%** | Published / Stable |
-| **E-Commerce ROC-AUC Score** | General Intent | **0.9205** | Production Calibrated |
-| **FireGuard Deep Learning Accuracy**| 49,430 Frames | **97.93%** | Real-Time Live Alerting |
-| **Diabetes Prediction Pipeline** | Pima Indian Set | **78.00%** | XAI Interpretable via LIME |
-
-```
+## 💡 Key Business Insights Captured
+* **Primary Catalyst (`PageValues`):** High web page valuation immediately close to the checkout stream acts as the single strongest global predictor for positive buyer conversion.
+* **Friction Metrics (`ExitRates`):** Micro-level user disengagement indicators (like exit and bounce rates) systematically drag down purchase probabilities, giving product teams concrete areas to optimize web flow.
